@@ -191,17 +191,10 @@
   footer .mail:hover { color: var(--accent-ink); }
   footer .copyright { margin-top: 18px; font-size: 12px; color: var(--text-soft); }
 
-  /* 스크롤 등장 효과 (CSS 전용, 자바스크립트 없음)
-     기본 상태가 '보임'이라 애니메이션이 없어도 내용은 항상 보입니다. */
-  .reveal { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  /* .reveal 은 표시에 전혀 영향을 주지 않습니다 — 내용은 항상 보입니다. */
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .reveal { animation: none; }
     .ambient span { animation: none; }
     .scroll-hint { animation: none; }
   }
