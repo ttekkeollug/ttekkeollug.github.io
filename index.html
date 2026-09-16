@@ -1,351 +1,645 @@
-<!DOCTYPE HTML>
-<!--
-	Dimension by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Snowhite cat</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Snowhite cat</title>
+<meta name="description" content="설하 · 한림대학교 · AI/로보틱스 활동 아카이브" />
+<style>
+  /* ===============================================================
+     Snowhite cat — Apple-style glassmorphism personal site
+     - 라이트/다크 자동 대응 (prefers-color-scheme)
+     - 메인색 #E2E7E4 · 포인트색 #68C7C1
+     - 긴 스크롤 레이아웃 + 상단 고정 유리 내비게이션
+     - CSS/JS 전부 인라인, 외부 의존성 없음
+     - 이미지 경로는 기존 사이트 구조(images/...) 그대로 유지
+     =============================================================== */
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+  :root {
+    /* Light theme (main #E2E7E4 / point #68C7C1) */
+    --bg: #e2e7e4;
+    --bg-2: #f0f3f1;
+    --text: #1c2b29;
+    --text-soft: #5c6b68;
+    --accent: #68c7c1;                 /* 포인트색: 채움·점·테두리 */
+    --accent-ink: #2c847d;             /* 밝은 배경에서 읽히는 틸 텍스트/링크 */
+    --accent-soft: rgba(104, 199, 193, 0.16);
+    --hairline: rgba(0, 0, 0, 0.10);
+    --btn-text: #0e3330;
 
-				<!-- Header -->
-					<header id="header">
-						<div class="logo">
-							<span class="icon fa-gem"></span>
-							<!--<img src="images/hallym.jpg.webp" alt="logo"style="width:36px; height:36px; object-fit:contain; border-radius:8px;" />-->
-						</div>
-						<div class="content">
-							<div class="inner">
-								<h1>Snowhite cat</h1>
-								<p> <a href="https://wro2019.org/">2019WRO 헝가리 세계대회 참가 </a><br> <a href="https://firstlegoleague.or.kr/76">2023FLL 뛰어난 공학상 </a><br><a href="https://wro2023.org/">2023WRO 수상 </a><br><a href="https://www.wro2024.org/">2024WRO 동상 수상 </a></p>
-							</div>
-						</div>
-						<nav>
-							<ul>
-								<li><a href="#intro">College</a></li>
-								<li><a href="#work">Club</a></li>
-								<li><a href="#about">Coffe</a></li>
-								<li><a href="#contact">Introduce</a></li>
-								<!--<li><a href="#elements">Elements</a></li>-->
-							</ul>
-						</nav>
-					</header>
+    /* Glass surface (투명하게) */
+    --glass-bg: rgba(255, 255, 255, 0.28);
+    --glass-border: rgba(255, 255, 255, 0.60);
+    --glass-shadow: 0 8px 40px rgba(31, 58, 55, 0.10);
+    --glass-hi: rgba(255, 255, 255, 0.65);      /* 상단 반사 하이라이트 */
+    --title-grad: linear-gradient(180deg, rgba(28, 43, 41, 0.72), rgba(28, 43, 41, 0.34));
 
-				<!-- Main -->
-					<div id="main">
+    /* Liquid-glass buttons (포인트색 틴트) */
+    --btn-glass-bg: rgba(104, 199, 193, 0.18);
+    --btn-glass-brd: rgba(255, 255, 255, 0.60);
+    --btn-label: #12524d;
 
-						<!-- Intro -->
-							<article id="intro">
-								<h2 class="major">College</h2>
-								 <a href="https://www.hallym.ac.kr/hallym/index.do">
-								<span class="image main"><img src="images/hallym.jpg.webp" alt="" /></span>
-									  </a>
-								<p>재학중인학교:한림대학교</p>
-								<p>학년:1</p>
-							</article>
+    /* Frosted nav */
+    --nav-bg: rgba(226, 231, 228, 0.72);
+    --nav-border: rgba(0, 0, 0, 0.08);
 
-						<!-- Work -->
-							<article id="work">
-								<h2 class="major">Club</h2>
-								<a href="https://www.instagram.com/hallym_cheonji/">
-								<span class="image main"><img src="images/cg.jpg" alt="" /></span>
-									  </a>
-								<p>동아리:천지</p>
-								
-							</article>
+    /* Ambient blobs (포인트색 계열) */
+    --blob-1: rgba(104, 199, 193, 0.42);
+    --blob-2: rgba(150, 205, 190, 0.34);
+    --blob-3: rgba(120, 210, 205, 0.30);
+  }
 
-						<!-- About -->
-							<article id="about">
-								<h2 class="major">Coffe</h2>
-								<span class="image main"><img src="images/toss_image_1773973060998.jpg" alt="" /></span>
-								<p>Treat developers to coffee</p>
-							</article>
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1413;
+      --bg-2: #101c1a;
+      --text: #eef2f1;
+      --text-soft: #9fb0ad;
+      --accent: #68c7c1;
+      --accent-ink: #68c7c1;           /* 어두운 배경에선 포인트색 그대로 읽힘 */
+      --accent-soft: rgba(104, 199, 193, 0.18);
+      --hairline: rgba(255, 255, 255, 0.12);
+      --btn-text: #05201e;
 
-						<!-- contact -->
-							<article id="contact">
-								<h2 class="major">Introduce</h2>
-								<p></p>
-								<span class="image main"><img src="images/KakaoTalk_20240427_190250920.jpg" alt="" /></span>
-								<p></p>활동내역:파이썬을 이용한 단진자 운동 역학 실험<br>CNN Implementation using Tensorflow (with MNIST dataset)<br>openCV를 활용한 이미지변환<br>CIFA10 dataset을 이용한 객체 분류 인공지능<br>CSS와HTML을 이용한 자기소개 웹 페이지<br>xray image classification MobileNet<br>NPL-mini ChatGPT<br>비지도 학습기반 여행지추천 인공지능<br>화풍변환 인공지능<br>인공지능 모델경량화-양자화와 가지치기<br>주식예측 인공지능<br>영어문장 분석 AI<br>강화학습-카트폴<br>AI기반 번역 웹사이트<br>감정인식 인공지능<br>XOR<br>전의학습을 이용한 얼굴인식 인공지능<br>날씨예측 인공지능<br>경사하강법<br><a href="https://devques.gajwa.dev/">동아리 데브큐스 </a><br>Godot 엔진을 활용한 NAN 2026 — NHN Game × AI Hackathon 준비
-<br></p>
-							</form>
-								<ul class="icons">
-									<li><a href="https://www.instagram.com/tte_kkeollug/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="https://github.com/ttekkeollug" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</article>
+      --glass-bg: rgba(28, 40, 38, 0.32);
+      --glass-border: rgba(255, 255, 255, 0.14);
+      --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+      --glass-hi: rgba(255, 255, 255, 0.20);
+      --title-grad: linear-gradient(180deg, rgba(238, 242, 241, 0.86), rgba(238, 242, 241, 0.42));
 
-						<!-- Elements -->
-							<article id="elements">
-								<h2 class="major">Elements</h2>
+      --btn-glass-bg: rgba(104, 199, 193, 0.14);
+      --btn-glass-brd: rgba(255, 255, 255, 0.26);
+      --btn-label: #c5f2ee;
 
-								<section>
-									<h3 class="major">Text</h3>
-									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-									<hr />
-									<h2>Heading Level 2</h2>
-									<h3>Heading Level 3</h3>
-									<h4>Heading Level 4</h4>
-									<h5>Heading Level 5</h5>
-									<h6>Heading Level 6</h6>
-									<hr />
-									<h4>Blockquote</h4>
-									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-									<h4>Preformatted</h4>
-									<pre><code>i = 0;
+      --nav-bg: rgba(8, 18, 16, 0.68);
+      --nav-border: rgba(255, 255, 255, 0.10);
 
-while (!deck.isInOrder()) {
-    print 'Iteration ' + i;
-    deck.shuffle();
-    i++;
-}
+      --blob-1: rgba(104, 199, 193, 0.40);
+      --blob-2: rgba(60, 160, 150, 0.34);
+      --blob-3: rgba(90, 200, 190, 0.28);
+    }
+  }
 
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-								</section>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-								<section>
-									<h3 class="major">Lists</h3>
+  html { scroll-behavior: smooth; }
 
-									<h4>Unordered</h4>
-									<ul>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Sagittis adipiscing.</li>
-										<li>Felis enim feugiat.</li>
-									</ul>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+      "SF Pro Text", "Helvetica Neue", "Apple SD Gothic Neo",
+      "Pretendard", "Malgun Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
 
-									<h4>Alternate</h4>
-									<ul class="alt">
-										<li>Dolor pulvinar etiam.</li>
-										<li>Sagittis adipiscing.</li>
-										<li>Felis enim feugiat.</li>
-									</ul>
+  a { color: inherit; text-decoration: none; }
 
-									<h4>Ordered</h4>
-									<ol>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Etiam vel felis viverra.</li>
-										<li>Felis enim feugiat.</li>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Etiam vel felis lorem.</li>
-										<li>Felis enim et feugiat.</li>
-									</ol>
-									<h4>Icons</h4>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-										<li><a href="#" class="icon brands fa-toss"><span class="label">toss</span></a></li>
-									</ul>
+  /* ---- Ambient animated background blobs ---- */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .ambient span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.9;
+    will-change: transform;
+  }
+  .ambient .b1 {
+    width: 46vw; height: 46vw; left: -8vw; top: -6vw;
+    background: var(--blob-1);
+    animation: drift1 24s ease-in-out infinite;
+  }
+  .ambient .b2 {
+    width: 40vw; height: 40vw; right: -10vw; top: 14vh;
+    background: var(--blob-2);
+    animation: drift2 30s ease-in-out infinite;
+  }
+  .ambient .b3 {
+    width: 42vw; height: 42vw; left: 22vw; bottom: -14vw;
+    background: var(--blob-3);
+    animation: drift3 27s ease-in-out infinite;
+  }
+  @keyframes drift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(6vw, 5vh) scale(1.1); }
+  }
+  @keyframes drift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-5vw, 4vh) scale(1.08); }
+  }
+  @keyframes drift3 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(4vw, -6vh) scale(1.12); }
+  }
 
-									<h4>Actions</h4>
-									<ul class="actions">
-										<li><a href="#" class="button primary">Default</a></li>
-										<li><a href="#" class="button">Default</a></li>
-										
-									</ul>
-									<ul class="actions stacked">
-										<li><a href="#" class="button primary">Default</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-								</section>
+  /* ---- Frosted top navigation ---- */
+  nav.topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 3vw, 40px);
+    padding: 0 20px;
+    background: var(--nav-bg);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--nav-border);
+  }
+  nav.topbar .brand {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    margin-right: auto;
+  }
+  nav.topbar .links {
+    display: flex;
+    gap: clamp(12px, 2.4vw, 32px);
+  }
+  nav.topbar .links a {
+    font-size: 13px;
+    color: var(--text-soft);
+    transition: color 0.2s ease;
+  }
+  nav.topbar .links a:hover { color: var(--text); }
 
-								<section>
-									<h3 class="major">Table</h3>
-									<h4>Default</h4>
-									<div class="table-wrapper">
-										<table>
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Description</th>
-													<th>Price</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Item One</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Two</td>
-													<td>Vis ac commodo adipiscing arcu aliquet.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Three</td>
-													<td> Morbi faucibus arcu accumsan lorem.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Four</td>
-													<td>Vitae integer tempus condimentum.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Five</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td>100.00</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
+  @media (max-width: 560px) {
+    nav.topbar .brand { font-size: 14px; }
+    nav.topbar .links a { font-size: 12px; }
+  }
 
-									<h4>Alternate</h4>
-									<div class="table-wrapper">
-										<table class="alt">
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Description</th>
-													<th>Price</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Item One</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Two</td>
-													<td>Vis ac commodo adipiscing arcu aliquet.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Three</td>
-													<td> Morbi faucibus arcu accumsan lorem.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Four</td>
-													<td>Vitae integer tempus condimentum.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Five</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td>100.00</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
-								</section>
+  /* ---- Layout helpers ---- */
+  section {
+    position: relative;
+    padding: clamp(80px, 14vh, 160px) 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .wrap { width: 100%; max-width: 980px; }
 
-								<section>
-									<h3 class="major">Buttons</h3>
-									<ul class="actions">
-										<li><a href="#" class="button primary">Primary</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-									<ul class="actions">
-										<li><a href="#" class="button">Default</a></li>
-										<li><a href="#" class="button small">Small</a></li>
-									</ul>
-									<ul class="actions">
-										<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
-										<li><a href="#" class="button icon solid fa-download">Icon</a></li>
-									</ul>
-									<ul class="actions">
-										<li><span class="button primary disabled">Disabled</span></li>
-										<li><span class="button disabled">Disabled</span></li>
-									</ul>
-								</section>
+  .eyebrow {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  h2.title {
+    font-size: clamp(34px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  p.lead {
+    font-size: clamp(17px, 2.4vw, 22px);
+    color: var(--text-soft);
+    max-width: 640px;
+    margin: 0 auto;
+  }
 
-								<section>
-									<h3 class="major">Form</h3>
-									<form method="post" action="#">
-										<div class="fields">
-											<div class="field half">
-												<label for="demo-name">Name</label>
-												<input type="text" name="demo-name" id="demo-name" value="" placeholder="이재용" />
-											</div>
-											<div class="field half">
-												<label for="demo-email">Email</label>
-												<input type="email" name="demo-email" id="demo-email" value="" placeholder="ji3524503@gmail.com" />
-											</div>
-											<div class="field">
-												<label for="demo-category">Category</label>
-												<select name="demo-category" id="demo-category">
-													<option value="">-</option>
-													<option value="1">Manufacturing</option>
-													<option value="1">Shipping</option>
-													<option value="1">Administration</option>
-													<option value="1">Human Resources</option>
-												</select>
-											</div>
-											<div class="field half">
-												<input type="radio" id="demo-priority-low" name="demo-priority" checked>
-												<label for="demo-priority-low">Low</label>
-											</div>
-											<div class="field half">
-												<input type="radio" id="demo-priority-high" name="demo-priority">
-												<label for="demo-priority-high">High</label>
-											</div>
-											<div class="field half">
-												<input type="checkbox" id="demo-copy" name="demo-copy">
-												<label for="demo-copy">Email me a copy</label>
-											</div>
-											<div class="field half">
-												<input type="checkbox" id="demo-human" name="demo-human" checked>
-												<label for="demo-human">Not a robot</label>
-											</div>
-											<div class="field">
-												<label for="demo-message">Message</label>
-												<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-											</div>
-										</div>
-										<ul class="actions">
-											<li><input type="submit" value="Send Message" class="primary" /></li>
-											<li><input type="reset" value="Reset" /></li>
-										</ul>
-									</form>
-								</section>
+  /* ---- Hero ---- */
+  .hero {
+    min-height: 92vh;
+    justify-content: center;
+    padding-top: 120px;
+  }
+  /* 글자 자체를 투명한 유리처럼 */
+  .hero h1 {
+    font-size: clamp(46px, 11vw, 120px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+    background: var(--title-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 0 var(--glass-hi))
+            drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18))
+            drop-shadow(0 12px 26px rgba(0, 0, 0, 0.22));
+  }
+  .hero .sub {
+    margin-top: 20px;
+    font-size: clamp(18px, 3vw, 26px);
+    color: var(--text-soft);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .badges {
+    margin: 40px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 720px;
+  }
+  .badge {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 999px;
+    color: var(--text);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: var(--glass-shadow),
+                inset 0 1px 0 var(--glass-hi);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .badge::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 5%; right: 5%; top: 0;
+    height: 48%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0));
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(31, 58, 55, 0.18),
+                inset 0 1px 0 var(--glass-hi);
+  }
+  .badge .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+  }
+  .hero-cta {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .scroll-hint {
+    margin-top: 48px;
+    font-size: 13px;
+    color: var(--text-soft);
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%,100% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
 
-							</article>
+  /* ---- Glass card ---- */
+  .card {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 28px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(30px) saturate(160%);
+    backdrop-filter: blur(30px) saturate(160%);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+  }
+  .card .media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--accent-soft);
+  }
+  .card .media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .card:hover .media img { transform: scale(1.04); }
+  .card .body {
+    padding: clamp(24px, 4vw, 40px);
+    text-align: center;
+  }
+  .card .body h3 {
+    font-size: clamp(22px, 3.4vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .card .body p { color: var(--text-soft); font-size: 17px; }
 
-					</div>
+  .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 13px 26px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 999px;
+    color: var(--btn-label);
+    background: var(--btn-glass-bg);
+    border: 1px solid var(--btn-glass-brd);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 8px 24px rgba(31, 58, 55, 0.18),
+                inset 0 1px 0 var(--glass-hi),
+                inset 0 -8px 16px rgba(255, 255, 255, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  /* 상단 반사광 */
+  .btn::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 6%; right: 6%; top: 0;
+    height: 46%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0));
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(31, 58, 55, 0.22),
+                inset 0 1px 0 var(--glass-hi),
+                inset 0 -8px 16px rgba(255, 255, 255, 0.10);
+  }
+  .btn.ghost {
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+  }
+  .btn svg { width: 17px; height: 17px; fill: currentColor; }
 
-				<!-- Footer -->
-					<footer id="footer">
-						<p class="copyright"> <a href="https://mail.google.com/mail/u/0/#inbox">&copy; mail: ji3524503@gmail.com  </a> </p>
-					</footer>
+  /* ---- Portrait card (Introduce) ---- */
+  .portrait {
+    width: clamp(160px, 40vw, 240px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 28px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-			</div>
+  /* ---- Activities grid ---- */
+  .grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    width: 100%;
+    max-width: 900px;
+  }
+  .chip {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 18px 20px;
+    border-radius: 18px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--glass-shadow),
+                inset 0 1px 0 var(--glass-hi);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 64px;
+  }
+  .chip::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0; right: 0; top: 0;
+    height: 46%;
+    background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0));
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .chip:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(31, 58, 55, 0.16),
+                inset 0 1px 0 var(--glass-hi);
+  }
+  .chip .num {
+    flex: none;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .chip.link-chip { color: var(--accent-ink); }
 
-		<!-- BG -->
-			<div id="bg"></div>
+  /* ---- Social / footer ---- */
+  footer {
+    padding: 80px 20px 100px;
+    text-align: center;
+    border-top: 1px solid var(--hairline);
+    margin-top: 40px;
+  }
+  .socials {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .socials a {
+    width: 52px; height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--glass-shadow);
+    color: var(--text);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .socials a:hover { transform: translateY(-3px); color: var(--accent-ink); }
+  .socials svg { width: 22px; height: 22px; }
+  footer .mail {
+    display: inline-block;
+    font-size: 15px;
+    color: var(--text-soft);
+    margin-top: 4px;
+  }
+  footer .mail:hover { color: var(--accent-ink); }
+  footer .copyright {
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+  /* ---- Scroll reveal ---- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
 
-	</body>
-</html>
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .ambient span { animation: none; }
+    .scroll-hint { animation: none; }
+  }
+</style>
+</head>
+<body>
 
+  <!-- Ambient glass background -->
+  <div class="ambient" aria-hidden="true">
+    <span class="b1"></span>
+    <span class="b2"></span>
+    <span class="b3"></span>
+  </div>
 
+  <!-- Frosted navigation -->
+  <nav class="topbar">
+    <a class="brand" href="#top">Snowhite&nbsp;cat</a>
+    <div class="links">
+      <a href="#college">College</a>
+      <a href="#coffee">Coffee</a>
+      <a href="#introduce">Introduce</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="wrap reveal">
+      <h1>Snowhite&nbsp;cat</h1>
+
+      <div class="badges">
+        <a class="badge" href="https://wro2019.org/" target="_blank" rel="noopener"><span class="dot"></span>2019 WRO 헝가리 세계대회 참가</a>
+        <a class="badge" href="https://firstlegoleague.or.kr/76" target="_blank" rel="noopener"><span class="dot"></span>2023 FLL 뛰어난 공학상</a>
+        <a class="badge" href="https://wro2023.org/" target="_blank" rel="noopener"><span class="dot"></span>2023 WRO 수상</a>
+        <a class="badge" href="https://www.wro2024.org/" target="_blank" rel="noopener"><span class="dot"></span>2024 WRO 동상 수상</a>
+      </div>
+      <div class="hero-cta">
+
+  <!-- College -->
+  <section id="college">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">College</div>
+        <h2 class="title">한림대학교</h2>
+        <p class="lead">현재 1학년으로 재학 중입니다.</p>
+      </div>
+      <div class="card reveal" style="margin-top:44px;">
+        <a class="media" href="https://www.hallym.ac.kr/hallym/index.do" target="_blank" rel="noopener">
+          <img src="images/hallym.jpg.webp" alt="한림대학교" loading="lazy" />
+        </a>
+        <div class="body">
+          <h3>Hallym University</h3>
+          <p>재학 중인 학교 · 1학년</p>
+          <a class="btn" href="https://www.hallym.ac.kr/hallym/index.do" target="_blank" rel="noopener">학교 홈페이지 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coffee -->
+  <section id="coffee">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Coffee</div>
+        <h2 class="title">개발자에게 커피 한 잔</h2>
+        <p class="lead">작은 응원이 다음 프로젝트의 원동력이 됩니다.</p>
+      </div>
+      <div class="card reveal" style="margin-top:44px; max-width:520px;">
+        <div class="media" style="aspect-ratio:auto;">
+          <img src="images/toss_image_1773973060998.jpg" alt="후원 QR" loading="lazy" style="height:auto;" />
+        </div>
+        <div class="body">
+          <h3>Treat developers to coffee</h3>
+          <p>개발자에게 커피를 선물해 주세요 ☕</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduce -->
+  <section id="introduce">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="portrait">
+          <img src="images/KakaoTalk_20240427_190250920.jpg" alt="프로필 사진" loading="lazy" />
+        </div>
+        <div class="eyebrow">Introduce</div>
+        <h2 class="title">활동 내역</h2>
+        <p class="lead">파이썬·머신러닝·컴퓨터비전·강화학습부터 웹·게임까지, 그동안 진행한 프로젝트들입니다.</p>
+      </div>
+
+      <div class="grid reveal">
+        <div class="chip"><span class="num">01</span>파이썬을 이용한 단진자 운동 역학 실험</div>
+        <div class="chip"><span class="num">02</span>CNN Implementation using Tensorflow (MNIST)</div>
+        <div class="chip"><span class="num">03</span>OpenCV를 활용한 이미지 변환</div>
+        <div class="chip"><span class="num">04</span>CIFAR-10 데이터셋 객체 분류 인공지능</div>
+        <div class="chip"><span class="num">05</span>CSS·HTML 자기소개 웹 페이지</div>
+        <div class="chip"><span class="num">06</span>X-ray Image Classification (MobileNet)</div>
+        <div class="chip"><span class="num">07</span>NLP-mini ChatGPT</div>
+        <div class="chip"><span class="num">08</span>비지도 학습 기반 여행지 추천 인공지능</div>
+        <div class="chip"><span class="num">09</span>화풍 변환 인공지능</div>
+        <div class="chip"><span class="num">10</span>모델 경량화 — 양자화와 가지치기</div>
+        <div class="chip"><span class="num">11</span>주식 예측 인공지능</div>
+        <div class="chip"><span class="num">12</span>영어 문장 분석 AI</div>
+        <div class="chip"><span class="num">13</span>강화학습 — 카트폴(CartPole)</div>
+        <div class="chip"><span class="num">14</span>AI 기반 번역 웹사이트</div>
+        <div class="chip"><span class="num">15</span>감정 인식 인공지능</div>
+        <div class="chip"><span class="num">16</span>XOR 신경망</div>
+        <div class="chip"><span class="num">17</span>전이학습을 이용한 얼굴 인식 인공지능</div>
+        <div class="chip"><span class="num">18</span>날씨 예측 인공지능</div>
+        <div class="chip"><span class="num">19</span>경사하강법(Gradient Descent)</div>
+        <a class="chip link-chip" href="https://devques.gajwa.dev/" target="_blank" rel="noopener"><span class="num">20</span>동아리 데브큐스 →</a>
+        <div class="chip"><span class="num">21</span>Godot 엔진 활용 — NAN 2026 · NHN Game × AI Hackathon 준비</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="socials">
+      <a href="https://www.instagram.com/tte_kkeollug/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
+      <!-- X(트위터) 아이콘 — href를 실제 프로필 주소로 교체하세요 -->
+      <a href="https://x.com/tte_kkeollug" target="_blank" rel="noopener" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"></path>
+        </svg>
+      </a>
+      <a href="https://github.com/ttekkeollug" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0
