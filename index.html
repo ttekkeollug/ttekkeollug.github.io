@@ -6,44 +6,24 @@
 <title>Snowhite cat</title>
 <meta name="description" content="설하 · 한림대학교 · AI/로보틱스 활동 아카이브" />
 <style>
-  /* ===============================================================
-     Snowhite cat — Apple-style glassmorphism personal site
-     - 라이트/다크 자동 대응 (prefers-color-scheme)
-     - 메인색 #E2E7E4 · 포인트색 #68C7C1
-     - 긴 스크롤 레이아웃 + 상단 고정 유리 내비게이션
-     - CSS/JS 전부 인라인, 외부 의존성 없음
-     - 이미지 경로는 기존 사이트 구조(images/...) 그대로 유지
-     =============================================================== */
-
   :root {
-    /* Light theme (main #E2E7E4 / point #68C7C1) */
     --bg: #e2e7e4;
-    --bg-2: #f0f3f1;
     --text: #1c2b29;
     --text-soft: #5c6b68;
-    --accent: #68c7c1;                 /* 포인트색: 채움·점·테두리 */
-    --accent-ink: #2c847d;             /* 밝은 배경에서 읽히는 틸 텍스트/링크 */
+    --accent: #68c7c1;
+    --accent-ink: #2c847d;
     --accent-soft: rgba(104, 199, 193, 0.16);
     --hairline: rgba(0, 0, 0, 0.10);
-    --btn-text: #0e3330;
-
-    /* Glass surface (투명하게) */
     --glass-bg: rgba(255, 255, 255, 0.28);
     --glass-border: rgba(255, 255, 255, 0.60);
     --glass-shadow: 0 8px 40px rgba(31, 58, 55, 0.10);
-    --glass-hi: rgba(255, 255, 255, 0.65);      /* 상단 반사 하이라이트 */
+    --glass-hi: rgba(255, 255, 255, 0.65);
     --title-grad: linear-gradient(180deg, rgba(28, 43, 41, 0.72), rgba(28, 43, 41, 0.34));
-
-    /* Liquid-glass buttons (포인트색 틴트) */
     --btn-glass-bg: rgba(104, 199, 193, 0.18);
     --btn-glass-brd: rgba(255, 255, 255, 0.60);
     --btn-label: #12524d;
-
-    /* Frosted nav */
     --nav-bg: rgba(226, 231, 228, 0.72);
     --nav-border: rgba(0, 0, 0, 0.08);
-
-    /* Ambient blobs (포인트색 계열) */
     --blob-1: rgba(104, 199, 193, 0.42);
     --blob-2: rgba(150, 205, 190, 0.34);
     --blob-3: rgba(120, 210, 205, 0.30);
@@ -52,28 +32,22 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #0b1413;
-      --bg-2: #101c1a;
       --text: #eef2f1;
       --text-soft: #9fb0ad;
       --accent: #68c7c1;
-      --accent-ink: #68c7c1;           /* 어두운 배경에선 포인트색 그대로 읽힘 */
+      --accent-ink: #68c7c1;
       --accent-soft: rgba(104, 199, 193, 0.18);
       --hairline: rgba(255, 255, 255, 0.12);
-      --btn-text: #05201e;
-
       --glass-bg: rgba(28, 40, 38, 0.32);
       --glass-border: rgba(255, 255, 255, 0.14);
       --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
       --glass-hi: rgba(255, 255, 255, 0.20);
       --title-grad: linear-gradient(180deg, rgba(238, 242, 241, 0.86), rgba(238, 242, 241, 0.42));
-
       --btn-glass-bg: rgba(104, 199, 193, 0.14);
       --btn-glass-brd: rgba(255, 255, 255, 0.26);
       --btn-label: #c5f2ee;
-
       --nav-bg: rgba(8, 18, 16, 0.68);
       --nav-border: rgba(255, 255, 255, 0.10);
-
       --blob-1: rgba(104, 199, 193, 0.40);
       --blob-2: rgba(60, 160, 150, 0.34);
       --blob-3: rgba(90, 200, 190, 0.28);
@@ -81,9 +55,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
       "SF Pro Text", "Helvetica Neue", "Apple SD Gothic Neo",
@@ -92,422 +64,129 @@
     color: var(--text);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
-
   a { color: inherit; text-decoration: none; }
 
-  /* ---- Ambient animated background blobs ---- */
-  .ambient {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .ambient span {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.9;
-    will-change: transform;
-  }
-  .ambient .b1 {
-    width: 46vw; height: 46vw; left: -8vw; top: -6vw;
-    background: var(--blob-1);
-    animation: drift1 24s ease-in-out infinite;
-  }
-  .ambient .b2 {
-    width: 40vw; height: 40vw; right: -10vw; top: 14vh;
-    background: var(--blob-2);
-    animation: drift2 30s ease-in-out infinite;
-  }
-  .ambient .b3 {
-    width: 42vw; height: 42vw; left: 22vw; bottom: -14vw;
-    background: var(--blob-3);
-    animation: drift3 27s ease-in-out infinite;
-  }
-  @keyframes drift1 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(6vw, 5vh) scale(1.1); }
-  }
-  @keyframes drift2 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(-5vw, 4vh) scale(1.08); }
-  }
-  @keyframes drift3 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(4vw, -6vh) scale(1.12); }
-  }
+  .ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .ambient span { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.9; }
+  .ambient .b1 { width: 46vw; height: 46vw; left: -8vw; top: -6vw; background: var(--blob-1); animation: drift1 24s ease-in-out infinite; }
+  .ambient .b2 { width: 40vw; height: 40vw; right: -10vw; top: 14vh; background: var(--blob-2); animation: drift2 30s ease-in-out infinite; }
+  .ambient .b3 { width: 42vw; height: 42vw; left: 22vw; bottom: -14vw; background: var(--blob-3); animation: drift3 27s ease-in-out infinite; }
+  @keyframes drift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(6vw, 5vh) scale(1.1); } }
+  @keyframes drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-5vw, 4vh) scale(1.08); } }
+  @keyframes drift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4vw, -6vh) scale(1.12); } }
 
-  /* ---- Frosted top navigation ---- */
   nav.topbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(14px, 3vw, 40px);
-    padding: 0 20px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(14px, 3vw, 40px); padding: 0 20px;
     background: var(--nav-bg);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
     border-bottom: 1px solid var(--nav-border);
   }
-  nav.topbar .brand {
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.01em;
-    margin-right: auto;
-  }
-  nav.topbar .links {
-    display: flex;
-    gap: clamp(12px, 2.4vw, 32px);
-  }
-  nav.topbar .links a {
-    font-size: 13px;
-    color: var(--text-soft);
-    transition: color 0.2s ease;
-  }
+  nav.topbar .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; margin-right: auto; }
+  nav.topbar .links { display: flex; gap: clamp(12px, 2.4vw, 32px); }
+  nav.topbar .links a { font-size: 13px; color: var(--text-soft); transition: color 0.2s ease; }
   nav.topbar .links a:hover { color: var(--text); }
-
   @media (max-width: 560px) {
     nav.topbar .brand { font-size: 14px; }
     nav.topbar .links a { font-size: 12px; }
   }
 
-  /* ---- Layout helpers ---- */
-  section {
-    position: relative;
-    padding: clamp(80px, 14vh, 160px) 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+  section { position: relative; padding: clamp(80px, 14vh, 160px) 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .wrap { width: 100%; max-width: 980px; }
+  .eyebrow { font-size: 15px; font-weight: 600; color: var(--accent-ink); margin-bottom: 12px; }
+  h2.title { font-size: clamp(34px, 6vw, 64px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 18px; }
+  p.lead { font-size: clamp(17px, 2.4vw, 22px); color: var(--text-soft); max-width: 640px; margin: 0 auto; }
 
-  .eyebrow {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--accent-ink);
-    letter-spacing: -0.01em;
-    margin-bottom: 12px;
-  }
-  h2.title {
-    font-size: clamp(34px, 6vw, 64px);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    margin-bottom: 18px;
-  }
-  p.lead {
-    font-size: clamp(17px, 2.4vw, 22px);
-    color: var(--text-soft);
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
-  /* ---- Hero ---- */
-  .hero {
-    min-height: 92vh;
-    justify-content: center;
-    padding-top: 120px;
-  }
-  /* 글자 자체를 투명한 유리처럼 */
+  .hero { min-height: 92vh; justify-content: center; padding-top: 120px; }
   .hero h1 {
-    font-size: clamp(46px, 11vw, 120px);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 0.98;
+    font-size: clamp(46px, 11vw, 120px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.98;
     background: var(--title-grad);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 1px 0 var(--glass-hi))
-            drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18))
-            drop-shadow(0 12px 26px rgba(0, 0, 0, 0.22));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 0 var(--glass-hi)) drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18)) drop-shadow(0 12px 26px rgba(0, 0, 0, 0.22));
   }
-  .hero .sub {
-    margin-top: 20px;
-    font-size: clamp(18px, 3vw, 26px);
-    color: var(--text-soft);
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-  .badges {
-    margin: 40px auto 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    max-width: 720px;
-  }
+  .hero .sub { margin-top: 20px; font-size: clamp(18px, 3vw, 26px); color: var(--text-soft); font-weight: 500; }
+  .badges { margin: 40px auto 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 720px; }
   .badge {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 999px;
-    color: var(--text);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    backdrop-filter: blur(18px) saturate(180%);
-    box-shadow: var(--glass-shadow),
-                inset 0 1px 0 var(--glass-hi);
+    position: relative; isolation: isolate; overflow: hidden;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; font-size: 14px; font-weight: 500; border-radius: 999px;
+    color: var(--text); background: var(--glass-bg); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .badge::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 5%; right: 5%; top: 0;
-    height: 48%;
-    border-radius: 999px;
-    background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0));
-    opacity: 0.55;
-    pointer-events: none;
-  }
-  .badge:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 30px rgba(31, 58, 55, 0.18),
-                inset 0 1px 0 var(--glass-hi);
-  }
-  .badge .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--accent);
-  }
-  .hero-cta {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-  }
-  .scroll-hint {
-    margin-top: 48px;
-    font-size: 13px;
-    color: var(--text-soft);
-    animation: bob 2s ease-in-out infinite;
-  }
-  @keyframes bob {
-    0%,100% { transform: translateY(0); opacity: 0.7; }
-    50% { transform: translateY(6px); opacity: 1; }
-  }
+  .badge::before { content: ""; position: absolute; z-index: -1; left: 5%; right: 5%; top: 0; height: 48%; border-radius: 999px; background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0)); opacity: 0.55; pointer-events: none; }
+  .badge:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(31, 58, 55, 0.18), inset 0 1px 0 var(--glass-hi); }
+  .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .hero-cta { margin-top: 30px; display: flex; justify-content: center; }
+  .scroll-hint { margin-top: 48px; font-size: 13px; color: var(--text-soft); animation: bob 2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(6px); opacity: 1; } }
 
-  /* ---- Glass card ---- */
   .card {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    border-radius: 28px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(30px) saturate(160%);
-    backdrop-filter: blur(30px) saturate(160%);
-    box-shadow: var(--glass-shadow);
-    overflow: hidden;
+    width: 100%; max-width: 900px; margin: 0 auto; border-radius: 28px;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(30px) saturate(160%); backdrop-filter: blur(30px) saturate(160%);
+    box-shadow: var(--glass-shadow); overflow: hidden;
   }
-  .card .media {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background: var(--accent-soft);
-  }
-  .card .media img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-  }
+  .card .media { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: var(--accent-soft); display: block; }
+  .card .media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
   .card:hover .media img { transform: scale(1.04); }
-  .card .body {
-    padding: clamp(24px, 4vw, 40px);
-    text-align: center;
-  }
-  .card .body h3 {
-    font-size: clamp(22px, 3.4vw, 30px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
+  .card .body { padding: clamp(24px, 4vw, 40px); text-align: center; }
+  .card .body h3 { font-size: clamp(22px, 3.4vw, 30px); font-weight: 700; margin-bottom: 8px; }
   .card .body p { color: var(--text-soft); font-size: 17px; }
 
   .btn {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 22px;
-    padding: 13px 26px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 999px;
-    color: var(--btn-label);
-    background: var(--btn-glass-bg);
-    border: 1px solid var(--btn-glass-brd);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    backdrop-filter: blur(18px) saturate(180%);
-    box-shadow: 0 8px 24px rgba(31, 58, 55, 0.18),
-                inset 0 1px 0 var(--glass-hi),
-                inset 0 -8px 16px rgba(255, 255, 255, 0.08);
+    position: relative; isolation: isolate; overflow: hidden;
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
+    padding: 13px 26px; font-size: 15px; font-weight: 600; border-radius: 999px;
+    color: var(--btn-label); background: var(--btn-glass-bg); border: 1px solid var(--btn-glass-brd);
+    -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 8px 24px rgba(31, 58, 55, 0.18), inset 0 1px 0 var(--glass-hi);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  /* 상단 반사광 */
-  .btn::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 6%; right: 6%; top: 0;
-    height: 46%;
-    border-radius: 999px;
-    background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0));
-    opacity: 0.6;
-    pointer-events: none;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 34px rgba(31, 58, 55, 0.22),
-                inset 0 1px 0 var(--glass-hi),
-                inset 0 -8px 16px rgba(255, 255, 255, 0.10);
-  }
-  .btn.ghost {
-    color: var(--accent-ink);
-    background: var(--accent-soft);
-  }
+  .btn::before { content: ""; position: absolute; z-index: -1; left: 6%; right: 6%; top: 0; height: 46%; border-radius: 999px; background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0)); opacity: 0.6; pointer-events: none; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(31, 58, 55, 0.22), inset 0 1px 0 var(--glass-hi); }
   .btn svg { width: 17px; height: 17px; fill: currentColor; }
 
-  /* ---- Portrait card (Introduce) ---- */
-  .portrait {
-    width: clamp(160px, 40vw, 240px);
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto 28px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-  }
+  .portrait { width: clamp(160px, 40vw, 240px); aspect-ratio: 1 / 1; border-radius: 50%; overflow: hidden; margin: 0 auto 28px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); }
   .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  /* ---- Activities grid ---- */
-  .grid {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
-    width: 100%;
-    max-width: 900px;
-  }
+  .grid { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; width: 100%; max-width: 900px; }
   .chip {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 18px 20px;
-    border-radius: 18px;
-    text-align: left;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: var(--glass-shadow),
-                inset 0 1px 0 var(--glass-hi);
+    position: relative; isolation: isolate; overflow: hidden;
+    padding: 18px 20px; border-radius: 18px; text-align: left;
+    font-size: 15px; font-weight: 500; color: var(--text);
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-height: 64px;
+    display: flex; align-items: center; gap: 12px; min-height: 64px;
   }
-  .chip::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 0; right: 0; top: 0;
-    height: 46%;
-    background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0));
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  .chip:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 32px rgba(31, 58, 55, 0.16),
-                inset 0 1px 0 var(--glass-hi);
-  }
-  .chip .num {
-    flex: none;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--accent-ink);
-    font-variant-numeric: tabular-nums;
-  }
+  .chip::before { content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 0; height: 46%; background: linear-gradient(180deg, var(--glass-hi), rgba(255, 255, 255, 0)); opacity: 0.5; pointer-events: none; }
+  .chip:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(31, 58, 55, 0.16), inset 0 1px 0 var(--glass-hi); }
+  .chip .num { flex: none; font-size: 12px; font-weight: 700; color: var(--accent-ink); }
   .chip.link-chip { color: var(--accent-ink); }
 
-  /* ---- Social / footer ---- */
-  footer {
-    padding: 80px 20px 100px;
-    text-align: center;
-    border-top: 1px solid var(--hairline);
-    margin-top: 40px;
-  }
-  .socials {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-bottom: 24px;
-  }
+  footer { padding: 80px 20px 100px; text-align: center; border-top: 1px solid var(--hairline); margin-top: 40px; }
+  .socials { display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; }
   .socials a {
-    width: 52px; height: 52px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
-    box-shadow: var(--glass-shadow);
-    color: var(--text);
-    transition: transform 0.2s ease, color 0.2s ease;
+    width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); box-shadow: var(--glass-shadow);
+    color: var(--text); transition: transform 0.2s ease, color 0.2s ease;
   }
   .socials a:hover { transform: translateY(-3px); color: var(--accent-ink); }
   .socials svg { width: 22px; height: 22px; }
-  footer .mail {
-    display: inline-block;
-    font-size: 15px;
-    color: var(--text-soft);
-    margin-top: 4px;
-  }
+  footer .mail { display: inline-block; font-size: 15px; color: var(--text-soft); margin-top: 4px; }
   footer .mail:hover { color: var(--accent-ink); }
-  footer .copyright {
-    margin-top: 18px;
-    font-size: 12px;
-    color: var(--text-soft);
-  }
-
-  /* ---- Scroll reveal ---- */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
-                transform 0.8s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal.in { opacity: 1; transform: translateY(0); }
+  footer .copyright { margin-top: 18px; font-size: 12px; color: var(--text-soft); }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; transition: none; }
     .ambient span { animation: none; }
     .scroll-hint { animation: none; }
   }
@@ -515,14 +194,12 @@
 </head>
 <body>
 
-  <!-- Ambient glass background -->
   <div class="ambient" aria-hidden="true">
     <span class="b1"></span>
     <span class="b2"></span>
     <span class="b3"></span>
   </div>
 
-  <!-- Frosted navigation -->
   <nav class="topbar">
     <a class="brand" href="#top">Snowhite&nbsp;cat</a>
     <div class="links">
@@ -532,11 +209,10 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="hero" id="top">
-    <div class="wrap reveal">
+    <div class="wrap">
       <h1>Snowhite&nbsp;cat</h1>
-
+      <p class="sub">한림대학교 · AI &amp; 로보틱스 아카이브</p>
       <div class="badges">
         <a class="badge" href="https://wro2019.org/" target="_blank" rel="noopener"><span class="dot"></span>2019 WRO 헝가리 세계대회 참가</a>
         <a class="badge" href="https://firstlegoleague.or.kr/76" target="_blank" rel="noopener"><span class="dot"></span>2023 FLL 뛰어난 공학상</a>
@@ -544,18 +220,25 @@
         <a class="badge" href="https://www.wro2024.org/" target="_blank" rel="noopener"><span class="dot"></span>2024 WRO 동상 수상</a>
       </div>
       <div class="hero-cta">
+        <a class="btn" href="https://x.com/tte_kkeollug" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>
+          X 프로필 방문
+        </a>
+      </div>
+      <div class="scroll-hint">아래로 스크롤 ↓</div>
+    </div>
+  </section>
 
-  <!-- College -->
   <section id="college">
     <div class="wrap">
-      <div class="reveal">
+      <div>
         <div class="eyebrow">College</div>
         <h2 class="title">한림대학교</h2>
         <p class="lead">현재 1학년으로 재학 중입니다.</p>
       </div>
-      <div class="card reveal" style="margin-top:44px;">
+      <div class="card" style="margin-top:44px;">
         <a class="media" href="https://www.hallym.ac.kr/hallym/index.do" target="_blank" rel="noopener">
-          <img src="images/hallym.jpg.webp" alt="한림대학교" loading="lazy" />
+          <img src="images/hallym.jpg.webp" alt="한림대학교" />
         </a>
         <div class="body">
           <h3>Hallym University</h3>
@@ -566,17 +249,16 @@
     </div>
   </section>
 
-  <!-- Coffee -->
   <section id="coffee">
     <div class="wrap">
-      <div class="reveal">
+      <div>
         <div class="eyebrow">Coffee</div>
         <h2 class="title">개발자에게 커피 한 잔</h2>
         <p class="lead">작은 응원이 다음 프로젝트의 원동력이 됩니다.</p>
       </div>
-      <div class="card reveal" style="margin-top:44px; max-width:520px;">
+      <div class="card" style="margin-top:44px; max-width:520px;">
         <div class="media" style="aspect-ratio:auto;">
-          <img src="images/toss_image_1773973060998.jpg" alt="후원 QR" loading="lazy" style="height:auto;" />
+          <img src="images/toss_image_1773973060998.jpg" alt="후원 QR" style="height:auto;" />
         </div>
         <div class="body">
           <h3>Treat developers to coffee</h3>
@@ -586,19 +268,18 @@
     </div>
   </section>
 
-  <!-- Introduce -->
   <section id="introduce">
     <div class="wrap">
-      <div class="reveal">
+      <div>
         <div class="portrait">
-          <img src="images/KakaoTalk_20240427_190250920.jpg" alt="프로필 사진" loading="lazy" />
+          <img src="images/KakaoTalk_20240427_190250920.jpg" alt="프로필 사진" />
         </div>
         <div class="eyebrow">Introduce</div>
         <h2 class="title">활동 내역</h2>
         <p class="lead">파이썬·머신러닝·컴퓨터비전·강화학습부터 웹·게임까지, 그동안 진행한 프로젝트들입니다.</p>
       </div>
 
-      <div class="grid reveal">
+      <div class="grid">
         <div class="chip"><span class="num">01</span>파이썬을 이용한 단진자 운동 역학 실험</div>
         <div class="chip"><span class="num">02</span>CNN Implementation using Tensorflow (MNIST)</div>
         <div class="chip"><span class="num">03</span>OpenCV를 활용한 이미지 변환</div>
@@ -624,7 +305,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <div class="socials">
       <a href="https://www.instagram.com/tte_kkeollug/" target="_blank" rel="noopener" aria-label="Instagram">
@@ -634,7 +314,6 @@
           <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
         </svg>
       </a>
-      <!-- X(트위터) 아이콘 — href를 실제 프로필 주소로 교체하세요 -->
       <a href="https://x.com/tte_kkeollug" target="_blank" rel="noopener" aria-label="X">
         <svg viewBox="0 0 24 24" fill="currentColor">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"></path>
@@ -642,4 +321,13 @@
       </a>
       <a href="https://github.com/ttekkeollug" target="_blank" rel="noopener" aria-label="GitHub">
         <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0
+          <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"></path>
+        </svg>
+      </a>
+    </div>
+    <a class="mail" href="mailto:ji3524503@gmail.com">ji3524503@gmail.com</a>
+    <div class="copyright">© Snowhite cat · Designed with a glass touch</div>
+  </footer>
+
+</body>
+</html>
